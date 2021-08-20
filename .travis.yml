@@ -1,18 +1,14 @@
 language: node_js
 node_js:
 - '14'
-
 before_install:
 - npm install -g @angular/cli
 install: npm install
-
 branches:
   only:
   - master
-
-
 deploy:
   provider: heroku
   app: my-steam
   api_key:
-    secure: 57900d4d-07fa-4deb-b943-424d01509e75
+    secure: Pr0LIReTGCUzZCYAgNDc93/h1XtKAk7LsimFscLDQ3XtU4VbI/uxrsnhpHKv55sfg6uVBvIkuWmFbso/P2OUfOsPWId5PQO8OztB32vsPavQqa80cjp3FSq9GrrA7RpTExvt1apR8s0DJ9wrJJudatcYk/T+1oFYR7MInPfkH9ArqLc7p+t2CQaox19j5VUSLGXJcIAJFQ9ATM/K/GydiYrcEe8SeruA/zKrq45hwqgPzXN4we3EQXuaz1uTcYgu7xuL0GOibmz7CtlVC3TTHNeRTGNTwoWFoiFD2Rx1WPyleigqeGvBXiXPrRm+FFjPqGnixKvOOitmaVhiwfa1fObU9VM1WixhPj4/9g3OM4S7PbazFhxddXTn8kWbJTB0Z48z898EpyRFa50Gd36E/ma05DhgVyjD4zfvVKtuiaJdsHlgWGUsC6OkV3utszLcLoxBVyAvM3MCzZUhLYCELryZY4sieHLa6qOMf5GoXhEC2tVyPcz2v68ZeWA6/kBp/pihoCtPp7S7WzN235ZIB3rd9Y6PbeJwYMnKa7Sz3icvPiCfHGqN8mwbQMP23giEmzrn9X+T8cWrIuHgQbgrEkrBc/1UOYQfozd2/frSojmv75jE+Lr0y22afHy6paAbZ7o3DnK4Kzbb2CzzsTfDaEC5rBB6b3ztv6ioax2c8ps=
