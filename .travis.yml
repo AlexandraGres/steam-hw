@@ -15,4 +15,4 @@ deploy:
   provider: heroku
   app: my-steam
   api_key:
-    secure: ""
+    secure: ENCRYPTED_API_KEY
