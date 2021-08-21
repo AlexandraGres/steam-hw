@@ -3,7 +3,9 @@ node_js:
 - '14'
 before_install:
 - npm install -g @angular/cli
-install: npm install
+install: 
+  - npm config set package-lock false
+  - npm install
 branches:
   only:
   - master
