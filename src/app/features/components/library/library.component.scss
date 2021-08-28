@@ -1,0 +1,40 @@
+.games {
+  display: flex;
+  padding: 20px 15px;
+  flex-wrap: wrap;
+}
+
+.game {
+  height: 315px;
+  border-radius: 3px;
+  box-shadow: 0px 0px 5px #c9c9c9;
+  margin: 10px;  
+  flex-basis: 30%;
+
+  .game_header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #bdbcff;
+    color: #fff;
+    height: 150px;    
+    padding: 10px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    font-size: 24px;
+  }
+
+  .main_part {
+    padding: 10px;
+
+    .description {
+      height: 110px;
+      overflow: hidden;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+  }
+}
+.btn {
+  flex-basis: 50%;
+}

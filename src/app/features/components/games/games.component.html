@@ -1,0 +1,55 @@
+<div class="container">
+  <h2>Games</h2>
+
+  <div class="form-control">
+    <label for="search">Search Games</label>
+    <input type="text" [(ngModel)]="search" placeholder="Search Games">
+  </div>
+
+  <h2>Featured Games</h2>
+  <div class="flex">
+    <div *ngIf="games.length; else loading">
+      <ul class="games">
+        <li class="game" *ngFor="let game of games | searchFilter: search | tagFilter: tagFilter">
+          <div class="game_header">
+            <p class="title">{{ game.name}}</p>
+            <p class="price">{{ game.price}} UAH</p>
+          </div>
+          <div class="main_part">
+            <p class="description">{{ game.description}}</p>
+            <button class="btn btn-primary btn-block" (click)="addToLibrary(game)">Add to Library</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="filters">
+      <form [formGroup]="form">
+        <div class="price">
+          <p>Filter by price</p>
+        </div>
+
+        <div class="tag">
+          <p>Filter by tag</p>
+          <div *ngFor="let tag of tags; let i = index">
+            <div class="tag-item">
+              <input formControlName="checkbox" type="checkbox" name={{tag}} value={{tag}}
+                (change)="changeFilter($event)">
+              <label for={{tag}}>{{tag}}</label>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #loading>
+  <div class="lds-ellipsis">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</ng-template>

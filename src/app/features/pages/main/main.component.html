@@ -1,0 +1,25 @@
+<nav class="navbar">
+  <a routerLink="/"><img src="assets/logo.png" alt="logo"></a>
+  
+  <ul>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/', 'games']">Games</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/', 'library']">Library</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/', 'friends']">Friends</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/', 'profile']">Profile</a>
+    </li>
+    <li>
+      <a href="#" (click)="logout($event)">Logout</a>
+    </li>
+  </ul>
+</nav>
+
+
+<router-outlet></router-outlet>
+

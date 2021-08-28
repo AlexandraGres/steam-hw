@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>Friends</h2>
+
+  <div class="form-control">
+    <label for="search">Search Friends</label>
+    <input type="text" [(ngModel)]="search" placeholder="Search Friends">
+  </div>
+
+  <h2>Search Friends: {{search}}</h2>
+    <div *ngIf="users.length; else loading">
+      <ul class="friends">
+        <li *ngFor="let user of users | searchFilter: search">
+          <div class="friend">
+            <span>{{user.username}}</span>
+            <button class="btn btn-primary">Add Friend</button>
+          </div>
+        </li>
+      </ul>
+    </div>  
+</div>
+
+<ng-template #loading>
+  <div class="lds-ellipsis">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</ng-template>
