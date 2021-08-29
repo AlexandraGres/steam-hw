@@ -19,7 +19,7 @@
   <div *ngIf="search">
     <h2>Search Friends: {{search}}</h2>
     <ul class="friends">
-      <li *ngFor="let user of users | searchFilter: search">
+      <li *ngFor="let user of uniqUsers | searchFilter: search">
         <div class="friend">
           <span>{{user.username}}</span>
           <button class="btn btn-primary" (click)="addFriend(user.username)">Add Friend</button>

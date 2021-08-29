@@ -1,3 +1,4 @@
+import { isNgTemplate } from '@angular/compiler';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { User } from '../../models';
@@ -12,7 +13,8 @@ import { ProfileService } from '../profile/profile.service';
 export class FriendsComponent implements OnInit, OnDestroy {
 
   users: User[] = []
-  friends: User[] = []
+  friends: string[] = []
+  uniqUsers: User[] = []
   gSub: Subscription
   search = ''
     
@@ -25,7 +27,8 @@ export class FriendsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.gSub = this.profileService.getUsers().subscribe(users => {
       this.users = users      
-      this.getFriends()      
+      this.getFriends()  
+      this.getUniqUsers()    
     })  
   }
 
@@ -57,5 +60,12 @@ export class FriendsComponent implements OnInit, OnDestroy {
       user.friends.push(friend)
       this.profileService.updateUser(user.id, user)
     }
+  }
+
+  getUniqUsers() {
+    const id = this.authService.currentUserId  
+    const user: any = this.users.find(user => user.uid === id)
+    this.uniqUsers = this.users.filter(item => !this.friends.includes(item.username as string) && item.username !== user.username)
+    return this.uniqUsers    
   }
 }
