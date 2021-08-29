@@ -12,20 +12,6 @@ export class GamesService {
   constructor(private db: AngularFireDatabase) {
   }
 
-  // public getGames(): Observable<Game[]> {
-  //   return this.db.list('games').valueChanges()    
-  //     .pipe(map((res: {[key: string]: any}) => {
-  //       return Object
-  //         .keys(res)
-  //         .map(key => ({
-  //           ...res[key],
-  //           id: key,
-  //           tag: res[key].tag,
-  //           library: res[key].library
-  //         }))
-  //     }))
-  // }
-
   public getGames(): Observable<Game[]> {
     return this.db.list('games').snapshotChanges()
       .pipe(

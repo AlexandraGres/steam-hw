@@ -1,11 +1,11 @@
 export interface User {
-  id?: string,
-  uId?: string
+  id?: string
+  uid?: string
   email: string
-  password?: string
-  username?: string,
+  username?: string
   age?: number
-  returnSecureToken?: boolean
+  library?: Game[]
+  friends?: []
 }
 
 export interface FBAuthResponse {
@@ -19,9 +19,8 @@ export interface FbCreateResponse {
 
 export interface Game {
   id?: ''
-  name: string,
-  description: string,
-  price: string,
-  tag: string[],
-  library: boolean
+  name: string
+  description: string
+  price: string
+  tag: string[]
 }

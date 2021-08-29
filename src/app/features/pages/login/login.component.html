@@ -3,8 +3,8 @@
     <form *ngIf="loginForm" [formGroup]="loginForm" (submit)="submit()">
       <h2 class="text-center">Sign In</h2>
 
-      <div class="alert alert-danger text-center" *ngIf="auth.error$ | async as error">
-        {{ error }}
+      <div class="alert alert-danger text-center" *ngIf="auth.error">
+        {{ auth.error }}
       </div>
 
       <div class="alert alert-info text-center" *ngIf="message">
@@ -27,7 +27,7 @@
       <div class="form-control"
       [ngClass]="{invalid: loginForm.get('password')?.touched && loginForm.get('password')?.invalid}">
         <label for="password">Password</label>
-        <input type="text" placeholder="Password" formControlName="password">
+        <input type="password" placeholder="Password" formControlName="password">
         <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="validation">
           <small *ngIf="loginForm.get('password')?.errors?.required">
             Please enter password

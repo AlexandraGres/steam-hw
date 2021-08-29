@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Game } from '../../models';
-import { GamesService } from '../games/games.service';
-import { LibraryService } from './library.service';
+import { Game, User } from '../../models';
+import { AuthService } from '../../services/auth.service';
+import { ProfileService } from '../profile/profile.service';
 
 @Component({
   selector: 'app-library',
@@ -11,35 +11,38 @@ import { LibraryService } from './library.service';
 })
 export class LibraryComponent implements OnInit, OnDestroy {
   games: Game[] = []
-  myGames: Game[] = []
-  gSub: Subscription
   message = ''
+  uSub: Subscription
+  users: User[] = []
 
   constructor(
-    public libService: LibraryService,
-    public gamesService: GamesService
+    public authService: AuthService,
+    public profileService: ProfileService
     ) { }
 
   ngOnInit(): void {
-    this.gSub = this.gamesService.getGames().subscribe(games => {
-      this.games = games
-      this.filterGames(this.games)
-    })
+    this.uSub = this.profileService.getUsers().subscribe(users => {
+      this.users = users  
+      this.getGames()   
+    })    
   }
 
   ngOnDestroy(): void {
-    if (this.gSub) {
-      this.gSub.unsubscribe()
+    if (this.uSub) {
+      this.uSub.unsubscribe()
     }
   } 
 
-  filterGames(games: Game[]): void | Game[] {
-    for(let i = 0; i < games.length; i++) {
-      if(games[i].library === true) {
-        this.myGames.push(games[i])
-      } 
-    }
-    return this.myGames
+  getGames() {
+    const id = this.authService.currentUserId  
+    const user = this.users.find(user => user.uid === id) 
+    if(user) {
+      if(user.library) {
+        this.games = user.library
+        return this.games
+      }      
+    } 
+    return   
   }
 
   download(name: string) {

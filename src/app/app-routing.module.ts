@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './features/pages/login/login.component';
-import { AuthGuard } from './features/services/auth.guard';
-import { MainComponent } from './features/pages/main/main.component';
+import { AngularFireAuthGuard, redirectLoggedInTo } from '@angular/fire/auth-guard';
+
+const redirectLoggedIn = () => redirectLoggedInTo(['']);
 
 const routes: Routes = [
   {
@@ -12,7 +13,9 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedIn}  
   }
 ];
 

@@ -4,8 +4,11 @@ import { FriendsComponent } from '../../components/friends/friends.component';
 import { GamesComponent } from '../../components/games/games.component';
 import { LibraryComponent } from '../../components/library/library.component';
 import { ProfileComponent } from '../../components/profile/profile.component';
-import { AuthGuard } from '../../services/auth.guard';
 import { MainComponent } from './main.component';
+import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+
+const redirectUnauthorized = () => redirectUnauthorizedTo(['/login']);
+
 
 const routes: Routes = [
   {
@@ -16,7 +19,8 @@ const routes: Routes = [
       {path: '', 
       component: GamesComponent,}
     ],
-    canActivate: [AuthGuard],    
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorized}    
   },
   {
     path: 'games',
@@ -25,7 +29,8 @@ const routes: Routes = [
       {path: '', 
       component: GamesComponent,}
     ],
-    canActivate: [AuthGuard],
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorized} 
   },
   {
     path: 'library',
@@ -34,7 +39,8 @@ const routes: Routes = [
       {path: '', 
       component: LibraryComponent,}
     ],
-    canActivate: [AuthGuard],
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorized} 
   },
   {
     path: 'friends',
@@ -43,7 +49,8 @@ const routes: Routes = [
       {path: '', 
       component: FriendsComponent,}
     ],
-    canActivate: [AuthGuard],
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorized} 
   },
   {
     path: 'profile',
@@ -52,7 +59,8 @@ const routes: Routes = [
       {path: '', 
       component: ProfileComponent,}
     ],
-    canActivate: [AuthGuard],
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorized} 
   },  
 ];
 

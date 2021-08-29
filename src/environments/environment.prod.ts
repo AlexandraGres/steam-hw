@@ -7,6 +7,7 @@ export const environment: Environment = {
   firebaseConfig: {
     apiKey: "AIzaSyCNQD3AObUQsrDDeCtRFlqmCbvbpruszoE",
     authDomain: "steam-c13d4.firebaseapp.com",
+    databaseURL: 'https://steam-c13d4-default-rtdb.europe-west1.firebasedatabase.app',
     projectId: "steam-c13d4",
     storageBucket: "steam-c13d4.appspot.com",
     messagingSenderId: "915084050254",

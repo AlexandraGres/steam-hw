@@ -2,9 +2,9 @@
   <h2>My Games</h2>
 
   <div class="flex">
-    <div *ngIf="myGames.length; else loading">
+    <div *ngIf="games.length; else loading">
       <ul class="games">
-        <li class="game" *ngFor="let game of myGames">
+        <li class="game" *ngFor="let game of games">
           <div class="game_header">
             <p class="title">{{ game.name}}</p>
           </div>
@@ -20,8 +20,6 @@
     </div>
   </div>
 </div>
-
-
 
 <ng-template #loading>
   <div class="lds-ellipsis">

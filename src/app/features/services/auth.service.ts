@@ -1,71 +1,61 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { User } from "../models";
-import { Observable, Subject, throwError } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
-import { environment } from "src/environments/environment";
+import { AngularFireAuth } from "@angular/fire/auth";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
-  public error$: Subject<string> = new Subject<string>()
-  constructor(private http: HttpClient) { }
+  authState: any = null;
+  public error: string
 
-  get token(): string | null {
-    const lsExpDate = localStorage.getItem('fb-token-exp')
-    if (lsExpDate) {
-      const expDate = new Date(lsExpDate)
-      if (new Date() > expDate) {
-        this.logout()
-        return null
-      }
-    }
-    return localStorage.getItem('fb-token')
+  constructor(
+    private angularFireAuth: AngularFireAuth,
+    private router: Router
+  ) {
+    this.angularFireAuth.authState.subscribe(authState => {
+      this.authState = authState
+    })
   }
 
-  login(user: User): Observable<any> {
-    user.returnSecureToken = true
-            
-    return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
-      .pipe(
-        tap(this.setToken),
-        catchError(this.handleError.bind(this))
-      )
+  get isAuthenticated(): boolean {
+    return this.authState !== null;
+  }
+
+  public get currentUserId(): string {
+    return this.isAuthenticated ? this.authState.uid : null;
+  }
+
+  signUp(email: string, password: string) {
+    this.angularFireAuth.createUserWithEmailAndPassword(email, password)
+      .then(res => {
+        console.log('You are Successfully signed up!', res)
+      })
+      .catch(error => {
+        this.handleError(error.message)
+        console.log('Something is wrong:', error.message)
+      })
+  }
+
+  login(email: string, password: string) {
+    this.angularFireAuth.signInWithEmailAndPassword(email, password)
+      .then(res => {
+        console.log('You are Successfully logged in!')
+        this.router.navigate(['/games'])
+      })
+      .catch(err => {
+        this.handleError(err.message)
+        console.log('Something went wrong:', err.message);
+      })
   }
 
   logout() {
-    this.setToken(null)
+    this.angularFireAuth.signOut()
   }
 
-  isAuthenticated(): boolean {
-    return !!this.token
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    const { message } = error.error.error
-    switch (message) {
-      case 'INVALID_EMAIL':
-        this.error$.next('Invalid email or password')
-        break
-      case 'INVALID_PASSWORD':
-        this.error$.next('Invalid email or password')
-        break
-      case 'EMAIL_NOT_FOUND':
-        this.error$.next('User not found')
-        break
-    }
-    return throwError(error)
-  }
-
-  private setToken(response: any) {
-    if (response) {
-      const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000)
-      localStorage.setItem('fb-token', response.idToken)
-      localStorage.setItem('fb-token-exp', expDate.toString())
-    } else {
-      localStorage.clear()
-    }
+  private handleError(error: string) {
+    this.error = error
+    return this.error
   }
 }

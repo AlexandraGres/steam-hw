@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { User } from '../../models';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -14,20 +12,10 @@ export class LoginComponent implements OnInit {
   message: string
 
   constructor(
-    public auth: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
+    public auth: AuthService
   ) { }
 
   public ngOnInit(): void {
-    this.route.queryParams.subscribe((params: Params) => {
-      if(params['loginAgain']) {
-        this.message = 'Please login'
-      } else if (params['authFailed']) {
-        this.message = 'Session expired, please login again'
-      }
-    })
-
     this.initForm()
   }
 
@@ -39,14 +27,8 @@ export class LoginComponent implements OnInit {
   }
 
   public submit() {
-    const user: User = {
-      email: this.loginForm.value.email,
-      password: this.loginForm.value.password
-    }
-    
-    this.auth.login(user).subscribe(() => {
-      this.loginForm.reset()
-      this.router.navigate(['/'])
-    })
+    const email = this.loginForm.value.email
+    const password = this.loginForm.value.password
+    this.auth.login(email, password)
   }
 }

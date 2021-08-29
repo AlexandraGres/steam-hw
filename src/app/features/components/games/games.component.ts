@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { Game } from '../../models';
+import { Game, User } from '../../models';
+import { AuthService } from '../../services/auth.service';
+import { ProfileService } from '../profile/profile.service';
 import { GamesService } from './games.service';
 
 @Component({
@@ -12,12 +14,18 @@ import { GamesService } from './games.service';
 export class GamesComponent implements OnInit, OnDestroy {
   public form: FormGroup
   games: Game[] = []
+  users: User[] = []
   gSub: Subscription
+  uSub: Subscription
   search = ''
   tagFilter = ''
   tags: string[]
 
-  constructor(public gamesService: GamesService) {
+  constructor(
+    public gamesService: GamesService,
+    public authService: AuthService,
+    public profileService: ProfileService
+    ) {
   }
 
   ngOnInit(): void {
@@ -25,12 +33,18 @@ export class GamesComponent implements OnInit, OnDestroy {
       this.games = games
       this.getTags(this.games)      
     })
+    this.uSub = this.profileService.getUsers().subscribe(users => {
+      this.users = users     
+    })
     this.initForm()
   }
 
   ngOnDestroy(): void {
     if (this.gSub) {
       this.gSub.unsubscribe()
+    }
+    if (this.uSub) {
+      this.uSub.unsubscribe()
     }
   }
 
@@ -43,11 +57,9 @@ export class GamesComponent implements OnInit, OnDestroy {
   changeFilter(event: any) {
     if (event.target.checked) {
       this.tagFilter = event.target.value
-      console.log(this.tagFilter);
       return
     }
     this.tagFilter = this.tagFilter.replace(event.target.value, '')
-    console.log(this.tagFilter);
   }
 
   getTags(games: any) {
@@ -63,7 +75,14 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   addToLibrary(game: Game) {
-    game.library = true
-    this.gamesService.addToLibrary(game.id, game)    
+    const id = this.authService.currentUserId  
+    const user = this.users.find(user => user.uid === id) 
+    if(user) {
+      if(!user.library) {
+        user.library = []
+      }
+      user.library.push(game)  
+      this.profileService.updateUser(user.id, user)
+    }       
   }
 }
