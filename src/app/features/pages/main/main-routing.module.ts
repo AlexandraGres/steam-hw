@@ -25,6 +25,7 @@ const routes: Routes = [
   {
     path: 'games',
     component: MainComponent,
+    pathMatch: 'full',
     children: [
       {path: '', 
       component: GamesComponent,}
@@ -35,6 +36,7 @@ const routes: Routes = [
   {
     path: 'library',
     component: MainComponent,
+    pathMatch: 'full',
     children: [
       {path: '', 
       component: LibraryComponent,}
@@ -45,6 +47,7 @@ const routes: Routes = [
   {
     path: 'friends',
     component: MainComponent,
+    pathMatch: 'full',
     children: [
       {path: '', 
       component: FriendsComponent,}
@@ -55,6 +58,7 @@ const routes: Routes = [
   {
     path: 'profile',
     component: MainComponent,
+    pathMatch: 'full',
     children: [
       {path: '', 
       component: ProfileComponent,}

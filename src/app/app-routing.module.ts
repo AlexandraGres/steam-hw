@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './features/pages/login/login.component';
 import { AngularFireAuthGuard, redirectLoggedInTo } from '@angular/fire/auth-guard';
+import { NotFoundComponent } from './features/pages/404/not-found/not-found.component';
 
 const redirectLoggedIn = () => redirectLoggedInTo(['']);
 
@@ -15,7 +16,12 @@ const routes: Routes = [
     component: LoginComponent,
     pathMatch: 'full',
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectLoggedIn}  
+    data: { authGuardPipe: redirectLoggedIn }
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: NotFoundComponent
   }
 ];
 
