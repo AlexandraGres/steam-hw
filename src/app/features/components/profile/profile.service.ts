@@ -25,6 +25,12 @@ export class ProfileService {
             id: user.key, ...user.payload.val()
           })
           )))
-  }
+  }  
+
+  //  public getUser(id: string){
+  //   return this.db.database.ref('users').orderByChild('uid').equalTo(id).on('child_added', snap => {
+  //     snap.val()
+  //   })
+  // }
 
 }

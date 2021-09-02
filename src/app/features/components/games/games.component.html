@@ -10,7 +10,7 @@
   <div class="flex">
     <div *ngIf="games.length; else loading">
       <ul class="games">
-        <li class="game" *ngFor="let game of games | searchFilter: search | tagFilter: tagFilter">
+        <li class="game" *ngFor="let game of games | searchFilter: search | tagFilter: tagFilter | priceFilter: price">
           <div class="game_header">
             <p class="title">{{ game.name}}</p>
             <p class="price">{{ game.price}} UAH</p>
@@ -23,11 +23,14 @@
       </ul>
     </div>
     <div class="filters">
+      <div class="price">
+        <p>Filter by price</p>          
+          <div class="tag-item">
+            <div class="price-text">{{price}}</div>
+            <input type="range" min="0" max={{maxPrice}} [(ngModel)]="price">
+          </div>         
+      </div>
       <form [formGroup]="form">
-        <div class="price">
-          <p>Filter by price</p>
-        </div>
-
         <div class="tag">
           <p>Filter by tag</p>
           <div *ngFor="let tag of tags; let i = index">

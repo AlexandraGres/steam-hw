@@ -58,6 +58,12 @@
 
   .price {
     margin-bottom: 25px;
+
+    &-text {
+      text-align: center;
+      height: 22px;
+      width: 130px;
+    }
   }
 
   .tag {

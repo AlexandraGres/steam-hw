@@ -18,8 +18,10 @@ export class GamesComponent implements OnInit, OnDestroy {
   gSub: Subscription
   uSub: Subscription
   search = ''
+  price = ''
   tagFilter = ''
   tags: string[]
+  maxPrice: number
 
   constructor(
     public gamesService: GamesService,
@@ -31,7 +33,8 @@ export class GamesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.gSub = this.gamesService.getGames().subscribe(games => {
       this.games = games
-      this.getTags(this.games)      
+      this.getTags(this.games) 
+      this.getMaxPrice(this.games)     
     })
     this.uSub = this.profileService.getUsers().subscribe(users => {
       this.users = users     
@@ -62,7 +65,14 @@ export class GamesComponent implements OnInit, OnDestroy {
     this.tagFilter = this.tagFilter.replace(event.target.value, '')
   }
 
-  getTags(games: any) {
+  getMaxPrice(games: Game[]) {
+    let maxPrice = Math.max(...games.map(o => +o.price))
+    this.maxPrice = maxPrice
+    console.log(this.maxPrice);
+    
+  }
+
+  getTags(games: Game[]) {
     let tags: any = []
     for (let game of games) {
       let arr = (game.tag as any).replace(/[^a-zA-Z, ]/g, '').split(', ')

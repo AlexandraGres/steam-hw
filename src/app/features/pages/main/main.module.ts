@@ -9,6 +9,7 @@ import { ProfileComponent } from '../../components/profile/profile.component';
 import { MainRoutingModule } from './main-routing.module';
 import { searchFilter } from '../../pipes/searchFilter.pipe';
 import { tagFilter } from '../../pipes/tagFilter.pipe';
+import { priceFilter } from '../../pipes/priceFilter.pipe';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { tagFilter } from '../../pipes/tagFilter.pipe';
     LibraryComponent,
     ProfileComponent,
     searchFilter,
-    tagFilter
+    tagFilter,
+    priceFilter
   ],
   imports: [
     CommonModule,
