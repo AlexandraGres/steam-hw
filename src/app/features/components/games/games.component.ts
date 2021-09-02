@@ -67,9 +67,7 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   getMaxPrice(games: Game[]) {
     let maxPrice = Math.max(...games.map(o => +o.price))
-    this.maxPrice = maxPrice
-    console.log(this.maxPrice);
-    
+    this.maxPrice = maxPrice    
   }
 
   getTags(games: Game[]) {
