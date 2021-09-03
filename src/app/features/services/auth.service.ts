@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
 
 export class AuthService {
   authState: any = null;
-  public error: string
+  error: string
 
   constructor(
     private angularFireAuth: AngularFireAuth,
@@ -20,14 +20,14 @@ export class AuthService {
   }
 
   get isAuthenticated(): boolean {
-    return this.authState !== null;
+    return !!this.authState;
   }
 
-  public get currentUserId(): string {
+  get currentUserId(): string {
     return this.isAuthenticated ? this.authState.uid : null;
   }
 
-  signUp(email: string, password: string) {
+  signUp(email: string, password: string): void {
     this.angularFireAuth.createUserWithEmailAndPassword(email, password)
       .then(res => {
         console.log('You are Successfully signed up!', res)
@@ -38,7 +38,7 @@ export class AuthService {
       })
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string): void {
     this.angularFireAuth.signInWithEmailAndPassword(email, password)
       .then(res => {
         console.log('You are Successfully logged in!')
@@ -50,11 +50,11 @@ export class AuthService {
       })
   }
 
-  logout() {
+  logout(): void {
     this.angularFireAuth.signOut()
   }
 
-  private handleError(error: string) {
+  handleError(error: string): string {
     this.error = error
     return this.error
   }

@@ -1,26 +1,17 @@
 export interface User {
-  id?: string
-  uid?: string
   email: string
+  id?: string
+  uid?: string  
   username?: string
   age?: number
   library?: Game[]
-  friends?: []
-}
-
-export interface FBAuthResponse {
-  idToken: string
-  expiresIn: string
-}
-
-export interface FbCreateResponse {
-  name: string
+  friends?: string[]
 }
 
 export interface Game {
-  id?: ''
   name: string
   description: string
   price: string
+  id?: string  
   tag: string[]
 }

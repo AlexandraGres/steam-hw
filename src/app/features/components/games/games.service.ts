@@ -12,7 +12,7 @@ export class GamesService {
   constructor(private db: AngularFireDatabase) {
   }
 
-  public getGames(): Observable<Game[]> {
+  getGames(): Observable<Game[]> {
     return this.db.list('games').snapshotChanges()
       .pipe(
         map((games: any[]) => 
@@ -22,7 +22,7 @@ export class GamesService {
           )))
   }
 
-  addToLibrary(key: any, value: Game) {
+  addToLibrary(key: string, value: Game) {
     return this.db.list('games').update(key, value)
   }
 }

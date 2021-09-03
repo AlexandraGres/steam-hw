@@ -12,12 +12,11 @@ import { ProfileService } from './profile.service';
 })
 export class ProfileComponent implements OnInit {
 
-  public profileForm: FormGroup
+  profileForm: FormGroup
   gSub: Subscription
   users: User[] = []
-  uid = 'O0xPlgF3pFREWev0oOqdg3RTz2e2'
   user: User
-  message = ''
+  message: string = ''
 
   constructor(
     private profileService: ProfileService,
@@ -33,33 +32,24 @@ export class ProfileComponent implements OnInit {
   }
 
   private initForm() {
+    const {username, email, age} = this.user
     this.profileForm = new FormGroup({
-      username: new FormControl(this.user.username, [Validators.required]),
-      email: new FormControl(this.user.email, [Validators.required, Validators.email]),
-      age: new FormControl(this.user.age, [Validators.required])
+      username: new FormControl(username, [Validators.required]),
+      email: new FormControl(email, [Validators.required, Validators.email]),
+      age: new FormControl(age, [Validators.required])
     })
   }
 
-  public submit() {
-    const user: User = {
-      username: this.profileForm.value.username,
-      email: this.profileForm.value.email,
-      age: this.profileForm.value.age
-    }
-    this.profileService.updateUser(this.user.id, user)
+  public submit(): void {
+    this.profileService.updateUser(this.user.id!, this.profileForm.value)
     this.message = 'Profile has been updated'
     setTimeout(() => {
       this.message = ''
     }, 2000);
   }
 
-  getUser() {
-    const id = this.authService.currentUserId
-    const user = this.users.find(user => user.uid === id)
-    if(user) {
-      this.user = user
-      return this.user
-    }
-    return
+  getUser(): void {
+    const id: string = this.authService.currentUserId
+    this.user = this.users.find(user => user.uid === id)!
   }
 }

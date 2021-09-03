@@ -11,13 +11,12 @@ import { ProfileService } from '../profile/profile.service';
 })
 export class LibraryComponent implements OnInit, OnDestroy {
   games: Game[] = []
-  message = ''
   uSub: Subscription
   users: User[] = []
 
   constructor(
-    public authService: AuthService,
-    public profileService: ProfileService
+    private authService: AuthService,
+    private profileService: ProfileService
     ) { }
 
   ngOnInit(): void {
@@ -33,24 +32,19 @@ export class LibraryComponent implements OnInit, OnDestroy {
     }
   } 
 
-  getGames() {
-    const id = this.authService.currentUserId  
-    const user = this.users.find(user => user.uid === id) 
-    if(user) {
-      if(user.library) {
-        this.games = user.library
-        return this.games
-      }      
-    } 
-    return   
+  getGames(): void {
+    const id: string = this.authService.currentUserId  
+    const user: User = this.users.find(user => user.uid === id)! 
+    if(user && user.library) {
+      this.games = user.library  
+    }  
   }
 
-  download(name: string) {
-    this.message = `Do you want to download ${name}?`
-    confirm(this.message)  
+  download(name: string): void {
+    confirm(`Do you want to download ${name}?`)  
   }
 
-  share(name: string) {
+  share(name: string): void {
     const input = document.createElement('input')
     document.body.appendChild(input)
     input.value = name

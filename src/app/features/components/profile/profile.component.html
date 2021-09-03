@@ -4,19 +4,24 @@
       <h2 class="text-center">Profile</h2>
       <div class="form-control">
         <label for="username">Username</label>
-        <input type="text" placeholder="Username" formControlName="username">
+        <input type="text" placeholder="Username" id="username" formControlName="username">
       </div>
       <div class="form-control">
         <label for="email">Email</label>
-        <input type="text" placeholder="Email" formControlName="email">
+        <input id="email" type="text" placeholder="Email" formControlName="email">
       </div>
       <div class="form-control">
         <label for="age">Age</label>
-        <input type="text" placeholder="Age" formControlName="age">
+        <input id="age" type="text" placeholder="Age" formControlName="age">
       </div>
-      <button class="btn btn-primary btn-block" type="submit" [disabled]="!profileForm.valid">Save</button>
+      <button 
+        class="btn btn-primary btn-block" 
+        type="submit" 
+        [disabled]="!profileForm.valid"
+        >Save</button>
     </form>
   </div>
+  
   <div class="message" *ngIf="message">{{message}}</div>
 </div>
 

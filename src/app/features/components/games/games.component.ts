@@ -12,85 +12,89 @@ import { GamesService } from './games.service';
   styleUrls: ['./games.component.scss']
 })
 export class GamesComponent implements OnInit, OnDestroy {
-  public form: FormGroup
+
+  form: FormGroup
   games: Game[] = []
-  users: User[] = []
-  gSub: Subscription
-  uSub: Subscription
   search = ''
   price = ''
   tagFilter = ''
   tags: string[]
   maxPrice: number
+  private users: User[] = []
+  private gSub: Subscription[] = []
 
   constructor(
-    public gamesService: GamesService,
-    public authService: AuthService,
-    public profileService: ProfileService
-    ) {
+    private gamesService: GamesService,
+    private authService: AuthService,
+    private profileService: ProfileService
+  ) {
   }
 
   ngOnInit(): void {
-    this.gSub = this.gamesService.getGames().subscribe(games => {
-      this.games = games
-      this.getTags(this.games) 
-      this.getMaxPrice(this.games)     
-    })
-    this.uSub = this.profileService.getUsers().subscribe(users => {
-      this.users = users     
-    })
+    this.gSub.push(
+      this.gamesService.getGames().subscribe(games => {
+        this.games = games
+        this.getTags(this.games)
+        this.getMaxPrice(this.games)
+      })
+    )
+
+    this.gSub.push(
+      this.profileService.getUsers().subscribe(users => {
+        this.users = users
+      })
+    )
+
     this.initForm()
   }
 
   ngOnDestroy(): void {
     if (this.gSub) {
-      this.gSub.unsubscribe()
-    }
-    if (this.uSub) {
-      this.uSub.unsubscribe()
+      this.gSub.forEach(sub => sub.unsubscribe())
     }
   }
 
-  private initForm() {
+  private initForm(): void {
     this.form = new FormGroup({
       checkbox: new FormControl(),
     })
   }
 
-  changeFilter(event: any) {
+  changeFilter(event: any): void {
     if (event.target.checked) {
       this.tagFilter = event.target.value
-      return
+    } else {
+      this.tagFilter = this.tagFilter.replace(event.target.value, '')
     }
-    this.tagFilter = this.tagFilter.replace(event.target.value, '')
   }
 
-  getMaxPrice(games: Game[]) {
+  getMaxPrice(games: Game[]): void {
     let maxPrice = Math.max(...games.map(o => +o.price))
-    this.maxPrice = maxPrice    
+    this.maxPrice = maxPrice
   }
 
-  getTags(games: Game[]) {
-    let tags: any = []
+  getTags(games: Game[]): void {
+    let tags: string[] = []
     for (let game of games) {
-      let arr = (game.tag as any).replace(/[^a-zA-Z, ]/g, '').split(', ')
+      const arr = (game.tag as any).replace(/[^a-zA-Z, -]/g, '').split(', ')
       tags = tags.concat(arr)
     }
     const set = new Set(tags)
     tags = [...set]
     this.tags = tags
-    return this.tags
   }
 
-  addToLibrary(game: Game) {
-    const id = this.authService.currentUserId  
-    const user = this.users.find(user => user.uid === id) 
-    if(user) {
-      if(!user.library) {
-        user.library = []
-      }
-      user.library.push(game)  
-      this.profileService.updateUser(user.id, user)
-    }       
+  addToLibrary(game: Game): void {
+    const id: string = this.authService.currentUserId
+    const user: User = this.users.find(user => user.uid === id)!
+    if (!user.library) {
+      user.library = []
+      user.library.push(game)
+      this.profileService.updateUser(user.id!, user)
+    }
+    if (user.library.every(g => g.id !== game.id)) {
+      user.library.push(game)
+      this.profileService.updateUser(user.id!, user)
+    }
   }
 }

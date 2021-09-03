@@ -11,24 +11,26 @@ import { ProfileService } from '../profile/profile.service';
 })
 export class FriendsComponent implements OnInit, OnDestroy {
 
-  users: User[] = []
   friends: string[] = []
   uniqUsers: User[] = []
-  gSub: Subscription
-  search = ''
-    
+  search: string = ''
+  private users: User[] = []
+  private gSub: Subscription
+  private currentUser: User
+
   constructor(
-    public authService: AuthService,
-    public profileService: ProfileService
-    ) {
+    private authService: AuthService,
+    private profileService: ProfileService
+  ) {
   }
-  
+
   ngOnInit(): void {
     this.gSub = this.profileService.getUsers().subscribe(users => {
-      this.users = users      
-      this.getFriends()  
-      this.getUniqUsers()    
-    })  
+      this.users = users
+      this.getCurrentUser()
+      this.getFriends()
+      this.getUniqUsers()
+    })
   }
 
   ngOnDestroy(): void {
@@ -37,34 +39,27 @@ export class FriendsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getFriends() {
-    const id = this.authService.currentUserId  
-    const user = this.users.find(user => user.uid === id) 
-    if(user) {
-      if(user.friends) {
-        this.friends = user.friends
-        return this.friends
-      }      
-    } 
-    return   
+  getCurrentUser(): void {
+    const id: string = this.authService.currentUserId
+    this.currentUser = this.users.find(user => user.uid === id)!
   }
 
-  addFriend(friend: string) {
-    const id = this.authService.currentUserId  
-    const user: any = this.users.find(user => user.uid === id)        
-    if(user) {
-      if(!user.friends) {
-        user.friends = []
-      }
-      user.friends.push(friend)
-      this.profileService.updateUser(user.id, user)
+  getFriends(): void {
+    if (this.currentUser && this.currentUser.friends) {
+      this.friends = this.currentUser.friends
     }
   }
 
-  getUniqUsers() {
-    const id = this.authService.currentUserId  
-    const user: any = this.users.find(user => user.uid === id)
-    this.uniqUsers = this.users.filter(item => !this.friends.includes(item.username as string) && item.username !== user.username)
-    return this.uniqUsers    
+  addFriend(friend: string): void {
+    if (!this.currentUser.friends) {
+      this.currentUser.friends = []
+    }
+    this.currentUser.friends.push(friend)
+    this.profileService.updateUser(this.currentUser.id!, this.currentUser)
+  }
+
+  getUniqUsers(): void{
+    this.uniqUsers = this.users.filter(item => !this.friends.includes(String(item.username)) 
+    && item.username !== this.currentUser.username)
   }
 }

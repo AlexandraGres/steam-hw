@@ -2,22 +2,28 @@
   <h2>Games</h2>
 
   <div class="form-control">
-    <label for="search">Search Games</label>
-    <input type="text" [(ngModel)]="search" placeholder="Search Games">
+    <label for="searchGames">Search Games</label>
+    <input id="searchGames" type="text" [(ngModel)]="search" placeholder="Search Games">
   </div>
 
   <h2>Featured Games</h2>
   <div class="flex">
     <div *ngIf="games.length; else loading">
       <ul class="games">
-        <li class="game" *ngFor="let game of games | searchFilter: search | tagFilter: tagFilter | priceFilter: price">
-          <div class="game_header">
-            <p class="title">{{ game.name}}</p>
-            <p class="price">{{ game.price}} UAH</p>
+        <li class="game" *ngFor="let game of games
+         | searchFilter: search
+         | tagFilter: tagFilter
+         | priceFilter: price">
+          <div class="game__header">
+            <p class="game__title">{{ game.name}}</p>
+            <p class="game__price">{{ game.price}} UAH</p>
           </div>
-          <div class="main_part">
-            <p class="description">{{ game.description}}</p>
-            <button class="btn btn-primary btn-block" (click)="addToLibrary(game)">Add to Library</button>
+          <div class="game__main-part">
+            <p class="game__description">{{ game.description}}</p>
+            <button 
+              class="btn btn-primary btn-block" 
+              (click)="addToLibrary(game)"
+              >Add to Library</button>
           </div>
         </li>
       </ul>
@@ -25,17 +31,20 @@
     <div class="filters">
       <div class="price">
         <p>Filter by price</p>          
-          <div class="tag-item">
-            <div class="price-text">{{price}}</div>
+          <div>
+            <div class="price__text">{{price}}</div>
             <input type="range" min="0" max={{maxPrice}} [(ngModel)]="price">
           </div>         
       </div>
       <form [formGroup]="form">
         <div class="tag">
           <p>Filter by tag</p>
-          <div *ngFor="let tag of tags; let i = index">
-            <div class="tag-item">
-              <input formControlName="checkbox" type="checkbox" name={{tag}} value={{tag}}
+          <div *ngFor="let tag of tags">
+            <div class="tag__item">
+              <input 
+                formControlName="checkbox" 
+                type="checkbox" 
+                id={{tag}} name={{tag}} value={{tag}}
                 (change)="changeFilter($event)">
               <label for={{tag}}>{{tag}}</label>
             </div>

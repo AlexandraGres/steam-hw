@@ -9,63 +9,72 @@ import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth
 
 const redirectUnauthorized = () => redirectUnauthorizedTo(['/login']);
 
-
 const routes: Routes = [
   {
     path: '',
     component: MainComponent,
     pathMatch: 'full',
     children: [
-      {path: '', 
-      component: GamesComponent,}
+      {
+        path: '',
+        component: GamesComponent
+      }
     ],
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorized}    
+    data: { authGuardPipe: redirectUnauthorized }
   },
   {
     path: 'games',
     component: MainComponent,
     pathMatch: 'full',
     children: [
-      {path: '', 
-      component: GamesComponent,}
+      {
+        path: '',
+        component: GamesComponent,
+      }
     ],
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorized} 
+    data: { authGuardPipe: redirectUnauthorized }
   },
   {
     path: 'library',
     component: MainComponent,
     pathMatch: 'full',
     children: [
-      {path: '', 
-      component: LibraryComponent,}
+      {
+        path: '',
+        component: LibraryComponent,
+      }
     ],
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorized} 
+    data: { authGuardPipe: redirectUnauthorized }
   },
   {
     path: 'friends',
     component: MainComponent,
     pathMatch: 'full',
     children: [
-      {path: '', 
-      component: FriendsComponent,}
+      {
+        path: '',
+        component: FriendsComponent,
+      }
     ],
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorized} 
+    data: { authGuardPipe: redirectUnauthorized }
   },
   {
     path: 'profile',
     component: MainComponent,
     pathMatch: 'full',
     children: [
-      {path: '', 
-      component: ProfileComponent,}
+      {
+        path: '',
+        component: ProfileComponent,
+      }
     ],
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorized} 
-  },  
+    data: { authGuardPipe: redirectUnauthorized }
+  },
 ];
 
 @NgModule({

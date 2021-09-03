@@ -1,11 +1,12 @@
 import { Pipe, PipeTransform } from "@angular/core";
+import { Game } from "../models";
 
 @Pipe({
   name: 'tagFilter'
 })
 
 export class tagFilter implements PipeTransform {
-  transform(items: any[], tag: string): any[] {  
+  transform(items: Game[], tag: string): Game[] {  
     if(!tag) {
       return items
     }

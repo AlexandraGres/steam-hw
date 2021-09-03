@@ -15,7 +15,7 @@
   margin: 10px;  
   flex-basis: 30%;
 
-  .game_header {
+  &__header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -25,24 +25,24 @@
     padding: 10px;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    font-size: 24px;
-
-    .price {
-      text-transform: uppercase;
-      text-align: right;
-      line-height: 1;
-    }
+    font-size: 24px;    
   }
 
-  .main_part {
-    padding: 10px;
+  &__price {
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1;
+  }
 
-    .description {
-      height: 110px;
-      overflow: hidden;
-      font-size: 12px;
-      line-height: 1.5;
-    }
+  &__main-part {
+    padding: 10px;
+  }
+
+  &__description {
+    height: 110px;
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 1.5;
   }
 }
 
@@ -53,13 +53,12 @@
 
   p {
     font-size: 16px;
-    margin-bottom: 20px;
   }
 
   .price {
     margin-bottom: 25px;
 
-    &-text {
+    &__text {
       text-align: center;
       height: 22px;
       width: 130px;
@@ -68,12 +67,16 @@
 
   .tag {
 
-    &-item {
+    &__item {
       padding-left: 15px;
 
       label {
         margin-left: 10px;
       }
+    }
+
+    p {
+      margin-bottom: 10px;
     }
   }
 }

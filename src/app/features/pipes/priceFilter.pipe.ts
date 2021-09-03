@@ -1,11 +1,12 @@
 import { Pipe, PipeTransform } from "@angular/core";
+import { Game } from "../models";
 
 @Pipe({
   name: 'priceFilter'
 })
 
 export class priceFilter implements PipeTransform {
-  transform(items: any[], price: string): any[] {  
+  transform(items: Game[], price: string): Game[] {  
     if(!price) {
       return items
     }

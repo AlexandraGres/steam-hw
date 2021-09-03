@@ -5,14 +5,20 @@
     <div *ngIf="games.length; else loading">
       <ul class="games">
         <li class="game" *ngFor="let game of games">
-          <div class="game_header">
-            <p class="title">{{ game.name}}</p>
+          <div class="game__header">
+            <p class="game__title">{{ game.name}}</p>
           </div>
-          <div class="main_part">
-            <p class="description">{{ game.description}}</p>
+          <div class="game__main-part">
+            <p class="game__description">{{ game.description}}</p>
             <div class="flex">
-              <button class="btn btn-primary" (click)="download(game.name)">Download</button>
-              <button class="btn btn-white" (click)="share(game.name)">Share</button>
+              <button 
+                class="btn btn-primary" 
+                (click)="download(game.name)"
+                >Download</button>
+              <button 
+                class="btn btn-white" 
+                (click)="share(game.name)"
+                >Share</button>
             </div>
           </div>
         </li>

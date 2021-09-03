@@ -2,8 +2,8 @@
   <h2>Friends</h2>
 
   <div class="form-control">
-    <label for="search">Search Friends</label>
-    <input type="text" [(ngModel)]="search" placeholder="Search Friends">
+    <label for="searchFriend">Search Friends</label>
+    <input id="searchFriend" type="text" [(ngModel)]="search" placeholder="Search Friends">
   </div>
 
   <div *ngIf="friends.length">
@@ -22,10 +22,13 @@
       <li *ngFor="let user of uniqUsers | searchFilter: search">
         <div class="friend">
           <span>{{user.username}}</span>
-          <button class="btn btn-primary" (click)="addFriend(user.username)">Add Friend</button>
+          <button 
+            class="btn btn-primary" 
+            (click)="addFriend(user.username)"
+            >Add Friend</button>
         </div>
       </li>
     </ul>
   </div>
-
+  
 </div>

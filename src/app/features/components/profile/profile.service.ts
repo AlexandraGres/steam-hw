@@ -10,14 +10,14 @@ import { map } from 'rxjs/operators';
 export class ProfileService {
 
   constructor(
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
   ) { }
 
-  updateUser(key: any, value: User) {
+  updateUser(key: string, value: User) {
     return this.db.list('users').update(key, value)
   }
 
-  public getUsers(): Observable<User[]> {
+  getUsers(): Observable<User[]> {
     return this.db.list('users').snapshotChanges()
       .pipe(
         map((users: any[]) =>
